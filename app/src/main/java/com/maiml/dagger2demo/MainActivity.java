@@ -1,5 +1,6 @@
 package com.maiml.dagger2demo;
 
+import android.app.IntentService;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,7 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.maiml.dagger2demo.di.AppModule;
 import com.maiml.dagger2demo.di.ComponentHolder;
+import com.maiml.dagger2demo.di.DaggerAppComponent;
+import com.maiml.dagger2demo.di.UserModule;
 
 import java.util.List;
 
@@ -20,6 +24,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Inject
     DataManager dataManager;
+
+
+    @Inject
+    Person person;
+
+
+    @Inject
+    User user;
+
     private RecyclerView mRecyclerView;
     private List<String> mDatas;
     private HomeAdapter mAdapter;
@@ -27,14 +40,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ComponentHolder.getAppComponent().inject(this);
+        DaggerAppComponent
+                .builder()
+                .appModule(new AppModule())
+                .userModule(new UserModule())
+                .build()
+                .inject(this);
 
         mRecyclerView = (RecyclerView) findViewById(R.id.id_recyclerview);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter = new HomeAdapter());
 
         initData();
-    }
+     }
 
     private void initData() {
         mDatas = dataManager.findData();

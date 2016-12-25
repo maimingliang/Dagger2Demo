@@ -9,7 +9,7 @@ import dagger.Component;
 /**
  * Created by maimingliang on 2016/12/19.
  */
-@Component(modules = {AppModule.class})
+@Component(modules = {AppModule.class,UserModule.class})
 @Singleton
 public interface AppComponent {
 

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.maiml.dagger2demo.DataManager;
+import com.maiml.dagger2demo.Person;
 
 import dagger.Module;
 import dagger.Provides;
@@ -15,22 +16,20 @@ import dagger.Provides;
 public class AppModule {
 
 
-    private final Context mContext;
-
-
-    public AppModule(Context context) {
-        this.mContext = context;
-    }
-
-
+    /**
+     * 带@Provides 注解 ，说明该方法是提供依赖
+     * @return
+     */
     @Provides
-    public DataManager provideUserManager() {
+    public DataManager provideManager() {
         return new DataManager();
     }
 
 
     @Provides
-    public Context provideContext() {
-        return mContext;
+    public Person providePerson(){
+        return new Person();
     }
+
+
 }
